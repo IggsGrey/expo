@@ -238,9 +238,13 @@ jobs:
             adb logcat -d > artifacts/emulator.log
             adb logcat -c || true
             adb shell screencap -p /data/local/tmp/bareexpo.png && adb pull /data/local/tmp/bareexpo.png artifacts/beforeTests.png
+            set +e
             ./scripts/start-android-e2e-test.sh
+            STATUS=$?
+            set -e
             adb shell screencap -p /data/local/tmp/bareexpo.png && adb pull /data/local/tmp/bareexpo.png artifacts/afterTests.png
             adb logcat -d > artifacts/adb.log
+            exit $STATUS
           working-directory: ./apps/bare-expo
       - name: 📸 Store images of test failures
         if: always()
