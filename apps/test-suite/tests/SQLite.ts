@@ -117,8 +117,8 @@ CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY NOT NULL, name VARCHAR(6
 
   describe('File system tests', () => {
     beforeAll(async () => {
-      await FS.deleteAsync(FS.documentDirectory + 'SQLite');
-      await FS.makeDirectoryAsync(FS.documentDirectory + 'SQLite');
+      await FS.deleteAsync(FS.documentDirectory + 'SQLite', { idempotent: true });
+      await FS.makeDirectoryAsync(FS.documentDirectory + 'SQLite', { intermediates: true });
     });
 
     it('should work with a downloaded .db file', async () => {
