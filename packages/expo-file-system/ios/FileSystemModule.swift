@@ -107,6 +107,16 @@ public final class FileSystemModule: Module {
         return
       }
 
+      guard let url = URL(string: fromUrl.path) else {
+        throw Exception(name: "ooxx", description: "unable to convert url")
+      }
+      guard let permissionsManager: EXFilePermissionModuleInterface = appContext?.legacyModule(implementing: EXFilePermissionModuleInterface.self) else {
+        throw Exceptions.PermissionsModuleNotFound()
+      }
+      let internalPerms = permissionsManager.getInternalPathPermissions(url)
+      if internalPerms.isEmpty {
+        throw Exception(name: "ooxx", description: "empty internal permissions")
+      }
       try ensurePathPermission(appContext, path: fromUrl.path, flag: .read)
       try ensurePathPermission(appContext, path: toUrl.path, flag: .write)
 

@@ -5,6 +5,8 @@
 @protocol EXFilePermissionModuleInterface
 
 - (EXFileSystemPermissionFlags)getPathPermissions:(NSString *)path;
+- (EXFileSystemPermissionFlags)getInternalPathPermissions:(NSURL *)path;
+- (EXFileSystemPermissionFlags)getExternalPathPermissions:(NSURL *)path;
 
 @end
 
